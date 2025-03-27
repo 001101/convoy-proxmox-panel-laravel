@@ -4,6 +4,24 @@ This file is a running track of new features and fixes to each version of the pa
 
 This project follows [Semantic Versioning](http://semver.org) guidelines.
 
+## v4.3.1
+
+### Changes
+
+- Tokens will be revoked when an administrator privileges are removed #132
+
+#### From v4.3.0-rc.1
+
+- Added guest agent support for changing Windows user passwords #120
+    - This feature is still experimental. Please provide feedback on
+      our [Discord community](https://discord.convoypanel.com/) and report bugs on
+      our [GitHub
+      repository](https://github.com/ConvoyPanel/panel/issues).
+- Servers will now automatically start after unsuspension #119
+- Fixed parsing of user realm types #126
+- Fixed broken redirect when unauthenticated while accessing certain admin routes #123
+- Fixed fetching of nameservers when there are none present #125
+
 ## v4.3.0-rc.1
 
 > [!IMPORTANT]  
