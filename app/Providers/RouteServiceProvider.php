@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::bind('server', function ($value) {
             return Server::query()->where(strlen($value) === 8 ? 'uuid_short' : 'uuid', $value)
-                         ->firstOrFail();
+                ->firstOrFail();
         });
 
         $this->routes(function () {
@@ -34,32 +34,32 @@ class RouteServiceProvider extends ServiceProvider
                 Route::middleware('guest')->group(base_path('routes/auth.php'));
 
                 Route::middleware(['auth.session'])
-                     ->group(base_path('routes/base.php'));
+                    ->group(base_path('routes/base.php'));
 
                 Route::middleware(['auth'])->prefix('/api/client')
-                     ->as('client.')
-                     ->scopeBindings()
-                     ->group(base_path('routes/api-client.php'));
+                    ->as('client.')
+                    ->scopeBindings()
+                    ->group(base_path('routes/api-client.php'));
 
                 Route::middleware(['auth', AdminAuthenticate::class])
-                     ->prefix('/api/admin')
-                     ->as('admin.')
-                     ->scopeBindings()
-                     ->group(base_path('routes/api-admin.php'));
+                    ->prefix('/api/admin')
+                    ->as('admin.')
+                    ->scopeBindings()
+                    ->group(base_path('routes/api-admin.php'));
             });
 
             Route::middleware(['api'])->group(function () {
-                Route::middleware(['auth:sanctum'])
-                     ->prefix('/api/application')
-                     ->as('application.')
-                     ->scopeBindings()
-                     ->group(base_path('routes/api-application.php'));
+                Route::middleware(['auth:sanctum', AdminAuthenticate::class])
+                    ->prefix('/api/application')
+                    ->as('application.')
+                    ->scopeBindings()
+                    ->group(base_path('routes/api-application.php'));
 
                 Route::middleware([CotermAuthenticate::class])
-                     ->prefix('/api/coterm')
-                     ->as('coterm.')
-                     ->scopeBindings()
-                     ->group(base_path('routes/api-coterm.php'));
+                    ->prefix('/api/coterm')
+                    ->as('coterm.')
+                    ->scopeBindings()
+                    ->group(base_path('routes/api-coterm.php'));
             });
         });
     }
