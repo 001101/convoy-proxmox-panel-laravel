@@ -11,8 +11,8 @@ services:
       - ./dockerfiles/caddy/data/config:/config
       - ./dockerfiles/caddy/data/data:/data
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     depends_on:
       - php
     env_file: .env
@@ -44,7 +44,7 @@ services:
         - PHP_XDEBUG_MODE=$PHP_XDEBUG_MODE
     tty: true
     ports:
-      - 1234:1234
+      - "127.0.0.1:1234:1234"
     volumes:
       - .:/var/www/
     extra_hosts:
@@ -66,8 +66,6 @@ services:
     image: redis:7.0-alpine
     restart: unless-stopped
     command: redis-server --save 60 1 --loglevel notice --requirepass '${REDIS_PASSWORD}'
-    ports:
-      - 6379:6379
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
     healthcheck:
@@ -80,8 +78,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./dockerfiles/mysql/data:/var/lib/mysql/
-    ports:
-      - 3306:3306
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: true
       MYSQL_DATABASE: ${DB_DATABASE}
