@@ -25,12 +25,13 @@ SOFTWARE.
 
 namespace Convoy\Http\Controllers\Base;
 
+use Convoy\Http\Controllers\Controller;
+use Convoy\Http\Requests\Base\LocaleRequest;
+use Illuminate\Contracts\Translation\Loader;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Translation\Translator;
-use Illuminate\Contracts\Translation\Loader;
-use Convoy\Http\Requests\Base\LocaleRequest;
 
-class LocaleController
+class LocaleController extends Controller
 {
     protected Loader $loader;
 
@@ -44,9 +45,18 @@ class LocaleController
      */
     public function __invoke(LocaleRequest $request): JsonResponse
     {
-        $locale = $request->input('locale');
-        $namespace = $request->input('namespace');
-        $response[$locale][$namespace] = $this->i18n($this->loader->load($locale, $namespace));
+        $locales = explode(' ', $request->input('locale') ?? '');
+        $namespaces = explode(' ', $request->input('namespace') ?? '');
+
+        $response = [];
+        foreach ($locales as $locale) {
+            $response[$locale] = [];
+            foreach ($namespaces as $namespace) {
+                $response[$locale][$namespace] = $this->i18n(
+                    $this->loader->load($locale, str_replace('.', '/', $namespace))
+                );
+            }
+        }
 
         return new JsonResponse($response, 200, [
             // Cache this in the browser for an hour, and allow the browser to use a stale
