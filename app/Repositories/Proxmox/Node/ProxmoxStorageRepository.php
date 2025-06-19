@@ -12,8 +12,10 @@ use Convoy\Exceptions\Service\Node\IsoLibrary\InvalidIsoLinkException;
 use Convoy\Models\Node;
 use Convoy\Repositories\Proxmox\ProxmoxRepository;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Spatie\LaravelData\DataCollection;
 use Webmozart\Assert\Assert;
+use function collect;
 
 class ProxmoxStorageRepository extends ProxmoxRepository
 {
@@ -65,7 +67,10 @@ class ProxmoxStorageRepository extends ProxmoxRepository
         return $this->getData($response);
     }
 
-    public function getIsos(): DataCollection
+    /**
+     * @return Collection<int, IsoData>
+     */
+    public function getIsos(): Collection
     {
         Assert::isInstanceOf($this->node, Node::class);
 
@@ -89,7 +94,7 @@ class ProxmoxStorageRepository extends ProxmoxRepository
             ]);
         }
 
-        return IsoData::collection($isos);
+        return collect($isos);
     }
 
     public function getFileMetadata(string $link, bool $verifyCertificates = true): FileMetaData

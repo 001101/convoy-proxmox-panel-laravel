@@ -11,6 +11,7 @@ use Convoy\Repositories\Proxmox\Server\ProxmoxConfigRepository;
 use Convoy\Exceptions\Service\Server\Allocation\IsoAlreadyMountedException;
 use Convoy\Exceptions\Service\Server\Allocation\IsoAlreadyUnmountedException;
 use Convoy\Exceptions\Service\Server\Allocation\NoAvailableDiskInterfaceException;
+use Illuminate\Support\Collection;
 
 class AllocationService
 {
@@ -23,7 +24,10 @@ class AllocationService
         return $this->updateHardware($server, $server->cpu, $server->memory);
     }
 
-    public function getDisks(Server $server)
+    /**
+     * @return Collection<int, DiskData>
+     */
+    public function getDisks(Server $server): Collection
     {
         $isos = $server->node->isos;
 
@@ -31,7 +35,7 @@ class AllocationService
             return in_array($disk['key'], array_column(DiskInterface::cases(), 'value'));
         }));
 
-        return DiskData::collection(Arr::map($disks, function ($rawDisk) use ($isos, $server) {
+        return collect(Arr::map($disks, function ($rawDisk) use ($isos, $server) {
             $disk = [
                 'interface' => DiskInterface::from(Arr::get($rawDisk, 'key')),
                 'is_primary_disk' => false,
@@ -68,11 +72,14 @@ class AllocationService
                 }
             }
 
-            return $disk;
+            return DiskData::from($disk);
         }));
     }
 
-    public function getBootOrder(Server $server)
+    /**
+     * @return Collection<int, DiskData>
+     */
+    public function getBootOrder(Server $server): Collection
     {
         $disks = $this->getDisks($server);
 
@@ -90,7 +97,7 @@ class AllocationService
             }
         }
 
-        return DiskData::collection($taggedDisks);
+        return collect($taggedDisks);
     }
 
     public function setBootOrder(Server $server, array $disks)

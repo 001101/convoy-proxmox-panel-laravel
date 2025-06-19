@@ -3,6 +3,7 @@
 namespace Convoy\Repositories\Proxmox\Node;
 
 use Convoy\Models\Node;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Webmozart\Assert\Assert;
 use Convoy\Data\Node\Access\UserData;
@@ -13,7 +14,10 @@ use Convoy\Repositories\Proxmox\ProxmoxRepository;
 
 class ProxmoxAccessRepository extends ProxmoxRepository
 {
-    public function getUsers()
+    /**
+     * @return Collection<int, UserData>
+     */
+    public function getUsers(): Collection
     {
         Assert::isInstanceOf($this->node, Node::class);
 
@@ -23,7 +27,7 @@ class ProxmoxAccessRepository extends ProxmoxRepository
 
         $users = array_map(fn ($user) => UserData::fromRaw($user), $this->getData($response));
 
-        return UserData::collection($users);
+        return collect($users);
     }
 
     public function createUser(CreateUserData $data): CreateUserData

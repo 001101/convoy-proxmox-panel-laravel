@@ -30,6 +30,7 @@ use Convoy\Transformers\Client\TemplateGroupTransformer;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
+use function collect;
 
 class SettingsController extends ApiController
 {
@@ -112,7 +113,7 @@ class SettingsController extends ApiController
         }
 
         return fractal()->item([
-            'unused_devices' => DiskData::collection($unconfiguredDevices),
+            'unused_devices' => collect($unconfiguredDevices),
             'boot_order' => $configuredDevices,
         ], new ServerBootOrderTransformer())->respond();
     }
