@@ -25,6 +25,7 @@ SOFTWARE.
 
 namespace Convoy\Http\Controllers\Base;
 
+use Convoy\Http\Requests\Base\LocaleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Translation\Translator;
@@ -43,7 +44,7 @@ class LocaleController extends Controller
     /**
      * Returns translation data given a specific locale and namespace.
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(LocaleRequest $request): JsonResponse
     {
         $locales = explode(' ', $request->input('locale') ?? '');
         $namespaces = explode(' ', $request->input('namespace') ?? '');
