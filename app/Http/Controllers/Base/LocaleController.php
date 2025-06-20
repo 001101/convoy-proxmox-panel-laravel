@@ -25,11 +25,12 @@ SOFTWARE.
 
 namespace Convoy\Http\Controllers\Base;
 
-use Convoy\Http\Controllers\Controller;
 use Convoy\Http\Requests\Base\LocaleRequest;
-use Illuminate\Contracts\Translation\Loader;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Translation\Translator;
+use Convoy\Http\Controllers\Controller;
+use Illuminate\Contracts\Translation\Loader;
 
 class LocaleController extends Controller
 {

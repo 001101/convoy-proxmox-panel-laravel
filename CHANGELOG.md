@@ -4,6 +4,13 @@ This file is a running track of new features and fixes to each version of the pa
 
 This project follows [Semantic Versioning](http://semver.org) guidelines.
 
+## v4.4.1
+
+### TIME SENSITIVE SECURITY UPDATE
+
+Please update immediately to this version to ensure your Convoy installation is secure. Details are still pending.
+
+
 ## v4.4.0
 
 ### Changes
