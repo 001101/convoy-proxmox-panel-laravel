@@ -4,6 +4,16 @@ This file is a running track of new features and fixes to each version of the pa
 
 This project follows [Semantic Versioning](http://semver.org) guidelines.
 
+## v4.5.0
+
+### TIME SENSITIVE SECURITY UPDATE
+
+Please update immediately to this version to ensure your Convoy installation is secure.
+
+### Changes
+
+- Updated to Laravel 11 from 10
+
 ## v4.5.0-rc.1
 
 ### TIME SENSITIVE SECURITY UPDATE
